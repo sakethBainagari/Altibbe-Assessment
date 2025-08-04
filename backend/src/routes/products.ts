@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import axios from 'axios';
 import { Product, IProduct } from '../models/Product';
 import { PDFService, ProductReportData } from '../services/pdfService';
+import { FallbackPDFService } from '../services/fallbackPdfService';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 
 const router = express.Router();
@@ -157,12 +158,26 @@ router.post('/generate-pdf', async (req: Request, res: Response) => {
       createdAt: new Date()
     };
 
-    // Generate PDF
-    const pdfBuffer = await PDFService.generateProductPDF(productData);
+    // Generate PDF with fallback
+    let pdfBuffer: Buffer;
+    try {
+      // Try Puppeteer first
+      pdfBuffer = await PDFService.generateProductPDF(productData);
+    } catch (puppeteerError) {
+      console.log('Puppeteer PDF generation failed, using fallback:', puppeteerError);
+      // Use fallback method
+      pdfBuffer = FallbackPDFService.generateSimplePDF(productData);
+      
+      // For fallback, we need to indicate it's plain text
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.txt"`);
+    }
 
-    // Set response headers for PDF download
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf"`);
+    // Set response headers for PDF download (if not already set by fallback)
+    if (!res.getHeader('Content-Type')) {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf"`);
+    }
     res.setHeader('Content-Length', pdfBuffer.length);
 
     // Send PDF

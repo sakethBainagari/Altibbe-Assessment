@@ -220,9 +220,9 @@ export class PDFService {
     let browser;
     
     try {
-      // Launch Puppeteer
+      // Launch Puppeteer with Vercel-compatible settings
       browser = await puppeteer.launch({
-        headless: "new", // Use new headless mode
+        headless: "new",
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -230,50 +230,70 @@ export class PDFService {
           '--disable-accelerated-2d-canvas',
           '--no-first-run',
           '--no-zygote',
-          '--disable-gpu'
-        ]
+          '--disable-gpu',
+          '--single-process',
+          '--disable-extensions',
+          '--disable-default-apps',
+          '--disable-background-timer-throttling',
+          '--disable-renderer-backgrounding',
+          '--disable-backgrounding-occluded-windows'
+        ],
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
       });
 
       const page = await browser.newPage();
       
-      // Set content
+      // Set viewport and optimize for PDF
+      await page.setViewport({ width: 1200, height: 800 });
+      
+      // Set content with longer timeout
       const html = this.generateHTML(productData);
       await page.setContent(html, { 
-        waitUntil: 'networkidle0',
-        timeout: 30000 
+        waitUntil: 'domcontentloaded',
+        timeout: 15000 
       });
 
-      // Generate PDF
+      // Wait a bit for any styling to apply
+      await page.waitForTimeout(1000);
+
+      // Generate PDF with optimized settings
       const pdfBuffer = await page.pdf({
         format: 'A4',
         printBackground: true,
+        preferCSSPageSize: true,
         margin: {
           top: '20mm',
-          right: '20mm',
+          right: '15mm',
           bottom: '20mm',
-          left: '20mm'
+          left: '15mm'
         },
         displayHeaderFooter: true,
         headerTemplate: `
-          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666; padding: 5px;">
             Product Transparency Report - ${productData.name}
           </div>
         `,
         footerTemplate: `
-          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666; padding: 5px;">
             Page <span class="pageNumber"></span> of <span class="totalPages"></span>
           </div>
-        `
+        `,
+        timeout: 15000
       });
 
       return Buffer.from(pdfBuffer);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating PDF:', error);
-      throw new Error('Failed to generate PDF report');
+      console.error('Error details:', error?.message || 'Unknown error');
+      throw new Error(`PDF generation failed: ${error?.message || 'Unknown error'}`);
     } finally {
       if (browser) {
-        await browser.close();
+        try {
+          await browser.close();
+        } catch (closeError) {
+          console.error('Error closing browser:', closeError);
+        }
       }
     }
   }

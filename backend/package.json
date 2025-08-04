@@ -23,7 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
-    "puppeteer": "^21.11.0"
+    "puppeteer": "^21.11.0",
+    "puppeteer-core": "^21.11.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
