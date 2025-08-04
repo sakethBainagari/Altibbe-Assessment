@@ -10,10 +10,7 @@
     },
     {
       "src": "backend/src/server.ts",
-      "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -25,8 +22,5 @@
       "src": "/(.*)",
       "dest": "/frontend/$1"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
