@@ -1,6 +1,53 @@
-# Product Transparency System
+# Product Transparency Website
 
-A comprehensive product transparency assessment platform with AI-powered question generation and scoring.
+A full-stack web application that collects detailed product information through AI-powered dynamic questions and generates comprehensive transparency reports.
+
+## 🚀 Live Demo
+- **Application**: https://altibbe-assessment-finalproject.vercel.app
+- **AI Service**: https://altibbe-assessment-production.up.railway.app
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React** with TypeScript
+- **Vite** for build tooling  
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **Axios** for API calls
+
+### Backend
+- **Node.js** with Express
+- **TypeScript** for type safety
+- **MongoDB** with Mongoose
+- **JWT** authentication
+- **Puppeteer** for PDF generation
+
+### AI Service
+- **Flask** microservice
+- **Google Gemini API** for AI responses
+- **Railway** deployment
+
+## ✨ Features
+
+### 🔐 Authentication
+- User registration and login
+- JWT-based authentication
+- Company-specific access control
+
+### 📝 Dynamic Form System
+- Multi-step product submission
+- AI-powered follow-up questions
+- Real-time validation
+
+### 🤖 AI Integration
+- Intelligent question generation
+- Product transparency scoring
+- Natural language processing
+
+### 📊 Report Generation
+- PDF report creation
+- Professional formatting
+- Download functionality
 
 ## 📡 AI Service Documentation
 
