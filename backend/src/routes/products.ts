@@ -23,7 +23,8 @@ router.post('/submit-product', authenticateToken, async (req: Request, res: Resp
     // Calculate transparency score using AI service
     let transparencyScore = null;
     try {
-      const scoreResponse = await axios.post('http://localhost:5001/api/transparency-score', {
+      const aiServiceUrl = process.env.AI_SERVICE_URL || 'http://localhost:5001';
+      const scoreResponse = await axios.post(`${aiServiceUrl}/api/transparency-score`, {
         product_name: name,
         category,
         answers: answers || []

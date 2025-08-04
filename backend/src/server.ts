@@ -63,7 +63,7 @@ app.get('/', (req, res) => {
       health: '/health',
       auth: '/api/auth',
       products: '/api',
-      'ai-service': 'http://localhost:5001'
+      'ai-service': process.env.AI_SERVICE_URL || 'http://localhost:5001'
     }
   });
 });
