@@ -233,40 +233,6 @@ curl -X POST http://localhost:5001/api/transparency-score \
 }
 ```
 
-### Example Transparency Report
-
-**AI-Generated Transparency Score**: 87/100 (Excellent)
-
-```
-🏆 TRANSPARENCY SCORE: 87/100 - EXCELLENT
-
-📊 Score Breakdown:
-• Completeness (95/100): All questions answered thoroughly
-• Quality (85/100): Detailed, specific responses with evidence
-• Transparency (90/100): Open about ingredients, processes, and sourcing
-• Compliance (80/100): Meets organic standards, ethical manufacturing
-
-✅ Strengths:
-• Complete ingredient transparency with organic certifications
-• Sustainable packaging with clear recyclability information
-• Ethical manufacturing with fair labor practices
-• No animal testing policy clearly stated
-• Strong environmental commitments
-
-⚠️ Areas for Improvement:
-• Could provide more specific details about supplier relationships
-• Consider adding third-party sustainability certifications
-• Include information about carbon footprint reduction efforts
-
-💡 AI Recommendations:
-• Highlight your B-Corp certification more prominently
-• Consider adding QR codes to packaging for supply chain transparency
-• Provide batch-specific ingredient sourcing information
-
-🎯 Consumer Trust Level: HIGH
-This product demonstrates exceptional transparency and ethical practices.
-```
-
 ## 🤖 Development Reflection: AI Tools & Architecture Principles
 
 ### How AI Tools Were Used in Development
