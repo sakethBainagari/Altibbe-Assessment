@@ -6,65 +6,6 @@ A full-stack web application that collects detailed product information through 
 - **Application**: https://altibbe-assessment-finalproject.vercel.app
 - **AI Service**: https://altibbe-assessment-production.up.railway.app
 
-## 🛠️ Tech Stack
-
-### Frontend
-- **React** with TypeScript
-- **Vite** for build tooling  
-- **Tailwind CSS** for styling
-- **React Router** for navigation
-- **Axios** for API calls
-
-### Backend
-- **Node.js** with Express
-- **TypeScript** for type safety
-- **MongoDB** with Mongoose
-- **JWT** authentication
-- **Puppeteer** for PDF generation
-
-### AI Service
-- **Flask** microservice
-- **Google Gemini API** for AI responses
-- **Railway** deployment
-
-## ✨ Features
-
-### 🔐 Authentication
-- User registration and login
-- JWT-based authentication
-- Company-specific access control
-
-### 📝 Dynamic Form System
-- Multi-step product submission
-- AI-powered follow-up questions
-- Real-time validation
-
-### 🤖 AI Integration
-- Intelligent question generation
-- Product transparency scoring
-- Natural language processing
-
-### 📊 Report Generation
-- PDF report creation
-- Professional formatting
-- Download functionality
-
-## 📡 AI Service Documentation
-
-### API Endpoints
-
-**Health Check (Port 5001)**
-- `GET http://localhost:5001/` - Service information and health status
-- `GET http://localhost:5001/health` - Detailed health check with AI model status
-
-**Core AI Endpoints (Port 5001)**
-- `POST http://localhost:5001/api/generate-questions` - Generate dynamic product questions
-- `POST http://localhost:5001/api/transparency-score` - Calculate transparency score
-- `POST http://localhost:5001/api/generate` - General AI text generation
-- `POST http://localhost:5001/api/chat` - AI chat functionality
-
-⚠️ **Important**: All AI endpoints are on port 5001 (AI Service), not port 5000 (Backend)
-
 ## 🚀 Setup Instructions
 
 ### Prerequisites
@@ -138,7 +79,7 @@ PORT=5001
 - **Admin Dashboard**: Different access levels for admins vs regular users
 - **Advanced Security**: Rate limiting, JWT tokens, password hashing, CORS protection
 
-## � AI Service Documentation
+## 📡 AI Service Documentation
 
 ### API Endpoints
 
@@ -176,24 +117,6 @@ curl -X POST http://localhost:5001/api/transparency-score \
       {"questionId": "warranty", "answer": "2 years"},
       {"questionId": "materials", "answer": "Recycled aluminum and glass"}
     ]
-  }'
-```
-
-**General AI Text Generation (AI Service - Port 5001)**
-```bash
-curl -X POST http://localhost:5001/api/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Generate a product description for organic soap"
-  }'
-```
-
-**AI Chat (AI Service - Port 5001)**
-```bash
-curl -X POST http://localhost:5001/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "What makes a product transparent?"
   }'
 ```
 
@@ -344,15 +267,6 @@ curl -X POST http://localhost:5001/api/chat \
 This product demonstrates exceptional transparency and ethical practices.
 ```
 
-**PDF Report Features**:
-- Professional layout with company branding
-- Visual transparency score with color coding
-- Detailed breakdown of all questions and answers
-- AI-powered recommendations for improvement
-- Compliance indicators and certifications summary
-- Consumer trust assessment
-- Generated timestamp and unique report ID
-
 ## 🤖 Development Reflection: AI Tools & Architecture Principles
 
 ### How AI Tools Were Used in Development
@@ -368,20 +282,3 @@ The architecture was guided by **separation of concerns** and **microservices pr
 The **transparency logic** was built on the principle that true product transparency serves consumers, not just compliance. Instead of technical jargon, the AI generates questions real buyers would ask: "Is this safe for children?" rather than "Does this meet CPSC standards?" The multi-criteria scoring system (completeness, quality, transparency, compliance) ensures holistic assessment rather than simple checkbox compliance.
 
 **User-centric design** drove the UI/UX decisions, prioritizing clarity and accessibility over technical complexity. The result is a system that makes complex supply chain information accessible to everyday consumers while providing companies actionable insights for improvement.
-
-## 🚀 **DEPLOYMENT READY**
-
-This application is fully configured for Vercel deployment with:
-- Production environment variables configured
-- API endpoints optimized for serverless functions
-- Frontend build optimized for static deployment
-- Complete deployment documentation in `DEPLOYMENT.md`
-
-**Quick Deploy to Vercel:**
-1. Deploy AI service to Railway/Heroku first
-2. Push to GitHub repository
-3. Connect to Vercel
-4. Set environment variables
-5. Deploy!
-
-See `DEPLOYMENT.md` for detailed deployment instructions.
