@@ -96,19 +96,33 @@ export default function Step3({ formData, resetForm }: Step3Props) {
       });
 
       console.log('PDF response received:', response);
+      console.log('Response headers:', response.headers);
+      console.log('Response data type:', typeof response.data);
+      console.log('Response data size:', response.data.size);
 
-      // Create blob and download
-      const blob = new Blob([response.data], { type: 'application/pdf' });
+      // Check content type to determine if it's PDF or text
+      const contentType = response.headers['content-type'] || 'application/pdf';
+      const isTextFile = contentType.includes('text/plain');
+      
+      // Create blob with correct MIME type
+      const blob = new Blob([response.data], { 
+        type: isTextFile ? 'text/plain' : 'application/pdf' 
+      });
+      
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `product-report-${formData.name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`;
+      
+      // Set filename based on content type
+      const baseFilename = `product-report-${formData.name.replace(/[^a-zA-Z0-9]/g, '-')}`;
+      link.download = isTextFile ? `${baseFilename}.txt` : `${baseFilename}.pdf`;
+      
       document.body.appendChild(link);
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
 
-      console.log('PDF download initiated successfully');
+      console.log('File download initiated successfully:', link.download);
 
     } catch (err: any) {
       console.error('PDF generation error:', err);

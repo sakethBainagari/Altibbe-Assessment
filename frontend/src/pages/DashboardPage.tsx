@@ -105,12 +105,26 @@ export default function DashboardPage() {
         timeout: 30000
       });
 
-      // Create blob and download
-      const blob = new Blob([response.data], { type: 'application/pdf' });
+      console.log('PDF response received:', response);
+      console.log('Response headers:', response.headers);
+
+      // Check content type to determine if it's PDF or text
+      const contentType = response.headers['content-type'] || 'application/pdf';
+      const isTextFile = contentType.includes('text/plain');
+      
+      // Create blob with correct MIME type
+      const blob = new Blob([response.data], { 
+        type: isTextFile ? 'text/plain' : 'application/pdf' 
+      });
+      
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `product-report-${product.name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf`;
+      
+      // Set filename based on content type
+      const baseFilename = `product-report-${product.name.replace(/[^a-zA-Z0-9]/g, '-')}`;
+      link.download = isTextFile ? `${baseFilename}.txt` : `${baseFilename}.pdf`;
+      
       document.body.appendChild(link);
       link.click();
       link.remove();

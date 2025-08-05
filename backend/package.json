@@ -21,6 +21,7 @@
     "express-rate-limit": "^8.0.1",
     "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.1",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
     "puppeteer": "^21.11.0",

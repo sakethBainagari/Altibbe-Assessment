@@ -160,27 +160,41 @@ router.post('/generate-pdf', async (req: Request, res: Response) => {
 
     // Generate PDF with fallback
     let pdfBuffer: Buffer;
+    let isTextFallback = false;
+    
     try {
       // Try Puppeteer first
+      console.log('Attempting Puppeteer PDF generation...');
       pdfBuffer = await PDFService.generateProductPDF(productData);
+      console.log('Puppeteer PDF generated successfully, size:', pdfBuffer.length);
     } catch (puppeteerError) {
       console.log('Puppeteer PDF generation failed, using fallback:', puppeteerError);
-      // Use fallback method
-      pdfBuffer = FallbackPDFService.generateSimplePDF(productData);
-      
-      // For fallback, we need to indicate it's plain text
-      res.setHeader('Content-Type', 'text/plain');
-      res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.txt"`);
+      try {
+        // Use jsPDF fallback
+        pdfBuffer = FallbackPDFService.generateSimplePDF(productData);
+        console.log('jsPDF fallback generated successfully, size:', pdfBuffer.length);
+      } catch (fallbackError) {
+        console.log('jsPDF fallback also failed, using text fallback:', fallbackError);
+        // This will be the text fallback from within FallbackPDFService
+        pdfBuffer = FallbackPDFService.generateSimplePDF(productData);
+        isTextFallback = true;
+        console.log('Text fallback generated, size:', pdfBuffer.length);
+      }
     }
 
-    // Set response headers for PDF download (if not already set by fallback)
-    if (!res.getHeader('Content-Type')) {
+    // Set appropriate response headers
+    if (isTextFallback) {
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.txt"`);
+    } else {
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="product-report-${name.replace(/[^a-zA-Z0-9]/g, '-')}.pdf"`);
     }
+    
     res.setHeader('Content-Length', pdfBuffer.length);
+    res.setHeader('Cache-Control', 'no-cache');
 
-    // Send PDF
+    // Send the file
     res.send(pdfBuffer);
 
   } catch (error: any) {
