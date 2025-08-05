@@ -7,9 +7,10 @@ interface Step2Props {
   formData: {
     name: string;
     category: string;
+    questions: Question[];
     answers: Answer[];
   };
-  updateFormData: (data: { answers: Answer[] }) => void;
+  updateFormData: (data: { questions: Question[]; answers: Answer[] }) => void;
 }
 
 export default function Step2({ formData, updateFormData }: Step2Props) {
@@ -178,7 +179,7 @@ export default function Step2({ formData, updateFormData }: Step2Props) {
       return;
     }
 
-    updateFormData({ answers });
+    updateFormData({ questions, answers });
     navigate('/form/step3');
   };
 

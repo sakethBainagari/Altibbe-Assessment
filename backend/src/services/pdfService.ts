@@ -195,12 +195,15 @@ export class PDFService {
           
           <div class="section">
             <h2>Detailed Assessment</h2>
-            ${productData.answers.map(answer => `
+            ${productData.answers.map(answer => {
+              const questionObj = productData.questions.find(q => q.id === answer.questionId);
+              const questionText = questionObj ? questionObj.question : formatQuestionId(answer.questionId);
+              return `
               <div class="answer-item">
-                <div class="answer-question">${formatQuestionId(answer.questionId)}</div>
+                <div class="answer-question">${questionText}</div>
                 <div class="answer-value">${formatAnswer(answer.answer)}</div>
-              </div>
-            `).join('')}
+              </div>`;
+            }).join('')}
           </div>
           
           <div class="footer">

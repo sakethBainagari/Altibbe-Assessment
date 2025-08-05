@@ -36,7 +36,7 @@ export default function Step3({ formData, resetForm }: Step3Props) {
       const response = await axios.post(`${config.apiUrl}/submit-product`, {
         name: formData.name,
         category: formData.category,
-        questions: [], // These would come from step 2 in a real implementation
+        questions: formData.questions, // Include actual questions from Step2
         answers: formData.answers
       }, { headers });
 
@@ -87,7 +87,7 @@ export default function Step3({ formData, resetForm }: Step3Props) {
       const response = await axios.post(`${config.apiUrl}/generate-pdf`, {
         name: formData.name,
         category: formData.category,
-        questions: [], // These would come from step 2 in a real implementation
+        questions: formData.questions, // Use actual questions from formData
         answers: formData.answers
       }, {
         responseType: 'blob', // Important for handling binary data

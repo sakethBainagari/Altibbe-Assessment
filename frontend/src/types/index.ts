@@ -23,6 +23,7 @@ export interface Answer {
 export interface FormData {
   name: string;
   category: string;
+  questions: Question[]; // Add questions to FormData
   answers: Answer[];
 }
 

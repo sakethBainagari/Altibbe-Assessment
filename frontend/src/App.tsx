@@ -7,12 +7,13 @@ import Step3 from './pages/Step3';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import { FormData, Answer } from './types';
+import { FormData, Answer, Question } from './types';
 
 function App() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     category: '',
+    questions: [],
     answers: []
   });
 
@@ -20,7 +21,7 @@ function App() {
     setFormData(prev => ({ ...prev, ...data }));
   };
 
-  const updateStep2Data = (data: { answers: Answer[] }) => {
+  const updateStep2Data = (data: { questions: Question[]; answers: Answer[] }) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
 
@@ -28,6 +29,7 @@ function App() {
     setFormData({
       name: '',
       category: '',
+      questions: [],
       answers: []
     });
   };
