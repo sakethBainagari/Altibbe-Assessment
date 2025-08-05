@@ -94,15 +94,29 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              AI-Powered
-              <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"> 
-                {" "}Product{" "}
-              </span>
-              Transparency
+              {user ? (
+                <>
+                  Welcome back,
+                  <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                    {" "}{user.companyName}{" "}
+                  </span>
+                </>
+              ) : (
+                <>
+                  AI-Powered
+                  <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"> 
+                    {" "}Product{" "}
+                  </span>
+                  Transparency
+                </>
+              )}
             </h1>
             <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Transform your compliance process with intelligent assessments, 
-              dynamic AI questions, and professional transparency reports
+              {user ? (
+                "Ready to create a new product transparency assessment? Get AI-powered questions and professional reports in minutes."
+              ) : (
+                "Transform your compliance process with intelligent assessments, dynamic AI questions, and professional transparency reports"
+              )}
             </p>
             
             {/* CTA Buttons */}
@@ -114,12 +128,22 @@ export default function HomePage() {
                 <svg className="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Start Free Assessment
+                {user ? "New Assessment" : "Start Free Assessment"}
                 <svg className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Link>
-              {!user && (
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-medium rounded-full transition-all duration-300 border border-white/20 hover:border-white/40"
+                >
+                  <svg className="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  View Dashboard
+                </Link>
+              ) : (
                 <Link
                   to="/auth/register"
                   className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-medium rounded-full transition-all duration-300 border border-white/20 hover:border-white/40"

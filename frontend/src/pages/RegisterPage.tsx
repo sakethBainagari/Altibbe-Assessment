@@ -44,8 +44,8 @@ export default function RegisterPage() {
         localStorage.setItem('authToken', response.data.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
-        // Redirect to dashboard
-        navigate('/dashboard');
+        // Redirect to home page after successful registration
+        navigate('/');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

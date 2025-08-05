@@ -25,8 +25,8 @@ export default function LoginPage() {
         localStorage.setItem('authToken', response.data.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
-        // Redirect to dashboard or form
-        navigate('/dashboard');
+        // Redirect to home page after successful login
+        navigate('/');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
